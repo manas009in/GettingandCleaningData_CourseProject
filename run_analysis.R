@@ -16,9 +16,11 @@
 
 ##########################################################################################################
 
-
 # Clean up the workspace
 rm(list=ls())
+
+
+
 
 # Section 1. Merge the train and the test sets to create one data set.
 #set working directory to the location where the UCI HAR Dataset was unzipped
@@ -33,7 +35,6 @@ yTrain       = read.table('./train/y_train.txt',header=FALSE); #imports y_train.
 subjectTest = read.table('./test/subject_test.txt',header=FALSE); #imports subject_test.txt
 xTest       = read.table('./test/x_test.txt',header=FALSE); #imports x_test.txt
 yTest       = read.table('./test/y_test.txt',header=FALSE); #imports y_test.txt
-
 
 # Assign column names to the data imported above for both test and train data
 colnames(activityType)  = c('activityId','activityType');
