@@ -21,12 +21,10 @@
 rm(list=ls())
 
 # Section 1. Merge the train and the test sets to create one data set.
-
 #set working directory to the location where the UCI HAR Dataset was unzipped
 setwd('/Users/Coursera/Data Science/Getting n Clenng data/Project/Data');
 
 # Read in the data from all files from train and test folders
-
 features     = read.table('./features.txt',header=FALSE); #imports features.txt
 activityType = read.table('./activity_labels.txt',header=FALSE); #imports activity_labels.txt
 subjectTrain = read.table('./train/subject_train.txt',header=FALSE); #imports subject_train.txt
@@ -38,7 +36,6 @@ yTest       = read.table('./test/y_test.txt',header=FALSE); #imports y_test.txt
 
 
 # Assign column names to the data imported above for both test and train data
-
 colnames(activityType)  = c('activityId','activityType');
 colnames(subjectTrain)  = "subjectId";
 colnames(xTrain)        = features[,2]; 
@@ -59,24 +56,30 @@ finalData = rbind(trainingData,testData);
 # to select the desired mean() & stddev() columns
 colNames  = colnames(finalData); 
 
-# Section 2. Extract only the measurements on the mean and standard deviation for each measurement. 
 
+
+
+# Section 2. Extract only the measurements on the mean and standard deviation for each measurement. 
 # Create a logicalVector that contains TRUE values for the ID, mean() & stddev() columns and FALSE for others
 logicalVector = (grepl("activity..",colNames) | grepl("subject..",colNames) | grepl("-mean..",colNames) & !grepl("-meanFreq..",colNames) & !grepl("mean..-",colNames) | grepl("-std..",colNames) & !grepl("-std()..-",colNames));
 
 # Subset finalData table based on the logicalVector to keep only desired columns
 finalData = finalData[logicalVector==TRUE];
 
-# Section 3. Use descriptive activity names to name the activities in the data set
 
+
+
+# Section 3. Use descriptive activity names to name the activities in the data set
 # Merge the finalData set with the acitivityType table to include descriptive activity names
 finalData = merge(finalData,activityType,by='activityId',all.x=TRUE);
 
 # Updating the colNames vector to include the new column names after merge
 colNames  = colnames(finalData); 
 
-### Section 4. Appropriately label the data set with descriptive activity names. 
 
+
+
+# Section 4. Appropriately label the data set with descriptive activity names. 
 # Cleaning up the variable names
 for (i in 1:length(colNames)) 
 {
@@ -97,8 +100,10 @@ for (i in 1:length(colNames))
 # Reassigning the new descriptive column names to the finalData set
 colnames(finalData) = colNames;
 
-# Section 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
 
+
+
+# Section 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
 # Create a new table, finalDataNoActivityType without the activityType column
 finalDataNoActivityType  = finalData[,names(finalData) != 'activityType'];
 
